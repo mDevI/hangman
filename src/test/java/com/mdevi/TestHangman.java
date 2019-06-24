@@ -34,14 +34,6 @@ public class TestHangman {
 
     }
 
-    @Test
-    public void testLengthFetchedWord() {
-        Hangman hangman = new Hangman();
-        String word = hangman.fetchWord();
-
-        assertTrue(word.length() == 5);
-
-    }
 
     @Test
     public void testLengthFetchedWordRandom() {
@@ -62,10 +54,10 @@ public class TestHangman {
         String word = null;
         Hangman hangman = new Hangman();
 
-        while (round < 100) {
+        while (round < 4) {
             requestedLength = random.nextInt(6) + 5;
             word = hangman.fetchWord(requestedLength);
-            System.out.println(requestedLength + " " + round + " " + word);
+            // System.out.println(requestedLength + " " + round + " " + word);
             round++;
 
             assertTrue(usedWordsSet.add(word));

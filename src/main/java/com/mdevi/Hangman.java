@@ -1,7 +1,12 @@
 package com.mdevi;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -10,6 +15,7 @@ import java.util.Set;
 public class Hangman {
 
     Set<String> usedWordsSet = new HashSet<>();
+    List<String> wordList = new ArrayList<>();
 
     public int countAlphabet(char alphabet, String word) {
         int result = 0;
@@ -21,14 +27,11 @@ public class Hangman {
         return result;
     }
 
-    public String fetchWord() {
-        return "pizza";
-    }
 
     public String fetchWord(int requestedLength) {
         String result = null;
 
-        try (BufferedReader br = new BufferedReader(new FileReader(new File("src/main/resources/WordSource.txt")))) {
+        try (BufferedReader br = new BufferedReader(new FileReader("src/main/resources/WordSource.txt"))) {
             while ((result = br.readLine()) != null) {
                 if (result.length() != requestedLength) continue;
                 else if (usedWordsSet.add(result)) break;
