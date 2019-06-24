@@ -14,6 +14,9 @@ import java.util.Set;
  */
 public class Hangman {
 
+    public static final int MAX_TRIALS = 10;
+    public int remainingTrials;
+    public int score;
     Set<String> usedWordsSet = new HashSet<>();
     List<String> wordsList = new ArrayList<>();
 
@@ -29,11 +32,16 @@ public class Hangman {
 
 
     public String fetchWord(int requestedLength) {
-        for (String result : wordsList) {
-            if (result.length() != requestedLength) continue;
-            else if (usedWordsSet.add(result)) return result;
+        String result = null;
+        remainingTrials = MAX_TRIALS;
+        for (String word : wordsList) {
+            if (word.length() != requestedLength) continue;
+            else if (usedWordsSet.add(word)) {
+                result = word;
+                break;
+            }
         }
-        return null;
+        return result;
     }
 
     public void loadWords() {
@@ -58,11 +66,15 @@ public class Hangman {
     }
 
     public String fetchClue(String wordForClue, String clue, char guessChar) {
+        remainingTrials--;
         if (guessChar >= 'A' && guessChar <= 'Z') guessChar += 32;
-        if (guessChar < 'a' || guessChar > 'z') throw new IllegalArgumentException();
+        if (guessChar < 'a' || guessChar > 'z') throw new IllegalArgumentException("Invalid character");
         StringBuilder newClue = new StringBuilder();
         for (int i = 0; i < wordForClue.length(); i++) {
-            if (guessChar == wordForClue.charAt(i) && guessChar != clue.charAt(i)) newClue.append(guessChar);
+            if (guessChar == wordForClue.charAt(i) && guessChar != clue.charAt(i)) {
+                newClue.append(guessChar);
+                score += (double) MAX_TRIALS / wordForClue.length();
+            }
             else newClue.append(clue.charAt(i));
         }
 
