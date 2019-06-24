@@ -15,7 +15,7 @@ import java.util.Set;
 public class Hangman {
 
     Set<String> usedWordsSet = new HashSet<>();
-    List<String> wordList = new ArrayList<>();
+    List<String> wordsList = new ArrayList<>();
 
     public int countAlphabet(char alphabet, String word) {
         int result = 0;
@@ -29,21 +29,24 @@ public class Hangman {
 
 
     public String fetchWord(int requestedLength) {
-        String result = null;
+        for (String result : wordsList) {
+            if (result.length() != requestedLength) continue;
+            else if (usedWordsSet.add(result)) return result;
+        }
+        return null;
+    }
 
+    public void loadWords() {
+        String word = null;
         try (BufferedReader br = new BufferedReader(new FileReader("src/main/resources/WordSource.txt"))) {
-            while ((result = br.readLine()) != null) {
-                if (result.length() != requestedLength) continue;
-                else if (usedWordsSet.add(result)) break;
-
+            while ((word = br.readLine()) != null) {
+                wordsList.add(word);
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        return result;
     }
 
 }

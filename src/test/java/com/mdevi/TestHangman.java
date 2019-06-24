@@ -40,6 +40,7 @@ public class TestHangman {
         Random random = new Random();
         Hangman hangman = new Hangman();
         int requestedLength = random.nextInt(6) + 5;
+        hangman.loadWords();
         String word = hangman.fetchWord(requestedLength);
 
         assertTrue(word.length() == requestedLength);
@@ -53,11 +54,11 @@ public class TestHangman {
         int round = 0;
         String word = null;
         Hangman hangman = new Hangman();
-
+        hangman.loadWords();
         while (round < 4) {
             requestedLength = random.nextInt(6) + 5;
             word = hangman.fetchWord(requestedLength);
-            // System.out.println(requestedLength + " " + round + " " + word);
+            System.out.println(requestedLength + " " + round + " " + word);
             round++;
 
             assertTrue(usedWordsSet.add(word));
