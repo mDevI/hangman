@@ -49,4 +49,23 @@ public class Hangman {
         }
     }
 
+    public String fetchClue(String wordForClue) {
+
+        StringBuilder clue = new StringBuilder();
+        clue.append("-".repeat(wordForClue.length()));
+
+        return clue.toString();
+    }
+
+    public String fetchClue(String wordForClue, String clue, char guessChar) {
+        if (guessChar >= 'A' && guessChar <= 'Z') guessChar += 32;
+        if (guessChar < 'a' || guessChar > 'z') throw new IllegalArgumentException();
+        StringBuilder newClue = new StringBuilder();
+        for (int i = 0; i < wordForClue.length(); i++) {
+            if (guessChar == wordForClue.charAt(i) && guessChar != clue.charAt(i)) newClue.append(guessChar);
+            else newClue.append(clue.charAt(i));
+        }
+
+        return newClue.toString();
+    }
 }
