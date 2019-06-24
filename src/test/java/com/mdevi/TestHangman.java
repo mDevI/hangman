@@ -12,6 +12,8 @@ import java.util.Set;
 
 import static com.mdevi.Hangman.MAX_TRIALS;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @DisplayName("Test Hangman facility methods.")
 public class TestHangman {
@@ -154,13 +156,26 @@ public class TestHangman {
 
     @Test
     public void testScoreAfterIncorrectGuess() {
+        // arrange
         String word = "pizza";
         String clue = "-----";
         char guess = 'x';
-
+        // act
         hangman.fetchClue(word, clue, guess);
-
+        // assert
         assertEquals(0, hangman.score);
+
+    }
+
+    @Test
+    public void testSaveScoreUsingMockDB() {
+        // arrange
+        MockScoreDB mockScoreDB = mock(MockScoreDB.class);
+        Hangman hangman = new Hangman(mockScoreDB);
+        // act
+        when(mockScoreDB.writeScoreDB("apple", 10)).thenReturn(true);
+        // assert
+        assertTrue(hangman.saveWordScore("apple", 10));
 
     }
 }

@@ -19,6 +19,14 @@ public class Hangman {
     public int score;
     Set<String> usedWordsSet = new HashSet<>();
     List<String> wordsList = new ArrayList<>();
+    MockScoreDB mockScoreDB;
+
+    public Hangman(MockScoreDB mockScoreDB) {
+        this.mockScoreDB = mockScoreDB;
+    }
+
+    public Hangman() {
+    }
 
     public int countAlphabet(char alphabet, String word) {
         int result = 0;
@@ -79,5 +87,9 @@ public class Hangman {
         }
 
         return newClue.toString();
+    }
+
+    public boolean saveWordScore(String word, double score) {
+        return mockScoreDB.writeScoreDB(word, score);
     }
 }
